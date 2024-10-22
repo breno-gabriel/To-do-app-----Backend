@@ -1,5 +1,8 @@
+
 export class CreateTaskDto {
 
-    nome 
+    nome:string
+    descricao:string 
+    prioridade: string
 
 }

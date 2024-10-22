@@ -24,9 +24,9 @@ model User {
 model Task {
   id           Int      @id @default(autoincrement())
   nome         String
-  descricao    String
-  finalizada   Boolean
-  data_termino DateTime
+  descricao    String   
+  finalizada   Boolean  @default(false)
+  data_termino DateTime?
   prioridade   String   @default("Baixa")
 
   User   User? @relation(fields: [userId], references: [id])
