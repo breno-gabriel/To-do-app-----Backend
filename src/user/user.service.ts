@@ -7,7 +7,9 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class UserService {
 
-  constructor (private prismaService : PrismaService) {}
+  constructor (
+    private prismaService : PrismaService
+  ) {}
 
   async create(createUserDto: CreateUserDto) : Promise<User>{
     return await this.prismaService.user.create({
