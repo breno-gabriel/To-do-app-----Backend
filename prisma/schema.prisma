@@ -14,10 +14,21 @@ datasource db {
 }
 
 model User {
-
-  id Int @id @default(autoincrement())
-  nome String 
+  id    Int    @id @default(autoincrement())
+  nome  String
   email String @unique
-  senha String 
+  senha String
+  tasks Task[]
+}
 
+model Task {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  descricao    String
+  finalizada   Boolean
+  data_termino DateTime
+  prioridade   String   @default("Baixa")
+
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }
