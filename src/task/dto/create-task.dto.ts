@@ -1,17 +1,20 @@
-import { IsEnum, IsString, Max, Min } from "class-validator"
+import { IsInt, IsString, Max, Min } from "class-validator"
 
 export class CreateTaskDto {
 
     @IsString()
-    @Min(5)
-    @Max(50)
+    // @Min(5)
+    // @Max(50)
     nome:string
 
-    @Max(140)
+    // @Max(140)
     @IsString()
     descricao:string 
 
     @IsString()
     prioridade: string
+
+    // @IsInt()
+    // user_id: number 
 
 }

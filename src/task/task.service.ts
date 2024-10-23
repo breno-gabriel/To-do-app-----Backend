@@ -9,10 +9,10 @@ export class TaskService {
 
   constructor (private prismaService : PrismaService) {}
 
-  async create(createTaskDto: CreateTaskDto) : Promise<Task> {
+  async create(createTaskDto: CreateTaskDto, userId: number) : Promise<Task> {
     return await this.prismaService.task.create({
 
-      data: {finalizada: false, data_termino: null ,...createTaskDto}
+      data: {finalizada: false, data_termino: null ,...createTaskDto, userId: userId}
 
     });
   }

@@ -29,6 +29,6 @@ model Task {
   data_termino DateTime?
   prioridade   String   @default("Baixa")
 
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int?
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
 }
