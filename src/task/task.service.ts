@@ -17,19 +17,44 @@ export class TaskService {
     });
   }
 
-  findAll() {
-    return `This action returns all task`;
+  async findAll(): Promise<Task[]> {
+    return this.prismaService.task.findMany(); 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  async findOne(id: number) : Promise<Task>{
+    return await this.prismaService.task.findUnique({
+
+      where: {
+        id 
+      }
+
+    });
+
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(id: number, updateTaskDto: UpdateTaskDto) : Promise<Task> {
+
+    if (updateTaskDto.finalizada) {
+
+      const date = new Date();
+
+      updateTaskDto['data_termino'] = date.toISOString();
+
+    }
+
+    return await this.prismaService.task.update({
+      where: {
+        id
+      }, 
+      data: {...updateTaskDto}
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(id: number) : Promise<Task> {
+    return this.prismaService.task.delete({
+        where: {
+          id 
+        }
+    });
   }
 }
