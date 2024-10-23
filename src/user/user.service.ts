@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/database/prisma.service';
@@ -14,19 +14,29 @@ export class UserService {
   async create(createUserDto: CreateUserDto) : Promise<User>{
     return await this.prismaService.user.create({
 
-      data: createUserDto
+      data: createUserDto,
+      include: {
+        tasks: true 
+      }
 
     });
   }
 
   async findAll(): Promise<User[]>{
-    return await this.prismaService.user.findMany();
+    return await this.prismaService.user.findMany({
+      include: {
+        tasks: true 
+      }
+    });
   }
 
   async findOne(id: number) : Promise<User> {
     return await this.prismaService.user.findUnique({
       where: {
         id 
+      }, 
+      include: {
+        tasks: true 
       }
     });
   }
