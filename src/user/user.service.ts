@@ -1,8 +1,9 @@
-import { ConflictException, HttpException, Injectable, UseGuards } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -21,9 +22,12 @@ export class UserService {
 
     }
 
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(createUserDto.senha, saltOrRounds);
+
     return await this.prismaService.user.create({
 
-      data: createUserDto,
+      data: {...createUserDto, senha: hash},
       include: {
         tasks: true 
       }
