@@ -3,39 +3,57 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { User } from './entities/user.entity';
 
+@ApiTags('users')
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService
   ) {}
 
+  @ApiCreatedResponse({
+    type: User 
+  })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) : Promise<User> {
+    return await this.userService.create(createUserDto);
   }
 
+  @ApiOkResponse({
+    type: [User] 
+  })
   @UseGuards(AuthGuard)
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() : Promise<User[]> {
+    return await this.userService.findAll();
   }
 
+  @ApiOkResponse({
+    type: User 
+  })
   @UseGuards(AuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  async findOne(@Param('id') id: string) : Promise<User> {
+    return await this.userService.findOne(+id);
   }
 
+  @ApiOkResponse({
+    type: User 
+  })
   @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) : Promise<User> {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @ApiOkResponse({
+    type: User 
+  })
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }
 }
